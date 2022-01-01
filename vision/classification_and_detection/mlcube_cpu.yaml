@@ -1,0 +1,36 @@
+name: Image Inference
+description: MLCommons Image Classification and Object Detection Benchmark
+authors: 
+ - {name: "MLCommons Best Practices Working Group"}
+
+platform:
+  accelerator_count: 1
+
+docker:
+  # Image name.
+  image: mlcommons/image_inference_cpu:0.0.1
+  # Docker build context relative to $MLCUBE_ROOT. Default is `build`.
+  build_context: "."
+  # Docker file name within docker build context, default is `Dockerfile`.
+  build_file: "Dockerfile.mlcube.cpu"
+
+tasks:
+  download_coco:
+    parameters:
+      outputs: {data_dir: data/}
+  download_model:
+    parameters:
+      inputs: {parameters_file: {type: file, default: parameters.yaml}}
+      outputs: {model_dir: model/}
+  run_inference:
+    parameters:
+      inputs: {data_dir: data/, model_dir: model/, parameters_file: {type: file, default: parameters.yaml}}
+      outputs: {output_dir: output/}
+  run_benchmark:
+    parameters:
+      inputs: {data_dir: data/, model_dir: model/, parameters_file: {type: file, default: parameters.yaml}, model_path: {type: file, default: ./model/ssd-mobilenet_300x300_pytorch/ssd_mobilenet_v1.pytorch}}
+      outputs: {output_dir: output/}
+  run_loadgen:
+    parameters:
+      inputs: {data_dir: data/, model_dir: model/, parameters_file: {type: file, default: parameters.yaml}}
+      outputs: {output_dir: mlperf-submission/}
