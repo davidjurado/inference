@@ -17,3 +17,4 @@ preprocessed
 python/preprocessed
 output
 mlperf_log_*
+workspace/data
