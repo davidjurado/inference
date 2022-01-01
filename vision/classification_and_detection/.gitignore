@@ -17,4 +17,5 @@ preprocessed
 python/preprocessed
 output
 mlperf_log_*
-workspace/data
+workspace/*
+!workspace/parameters.yaml
